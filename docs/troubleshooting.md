@@ -1,6 +1,6 @@
 # Troubleshooting
 
-Common issues and solutions for Aider v2.
+Common issues and solutions for Aidant.
 
 ## Installation Issues
 
@@ -114,7 +114,7 @@ telnet api.anthropic.com 443
 ### Invalid Model Names
 ```bash
 # Check available models
-aider-v2 --provider openai --model gpt-4o --verbose
+aidant --provider openai --model gpt-4o --verbose
 
 # Common model name errors
 # Wrong: "gpt4", "claude3"
@@ -124,10 +124,10 @@ aider-v2 --provider openai --model gpt-4o --verbose
 ### Provider Compatibility
 ```bash
 # Base URL only works with OpenAI provider
-aider-v2 --provider openai --base-url https://openrouter.ai/api/v1
+aidant --provider openai --base-url https://openrouter.ai/api/v1
 
 # This will fail:
-# aider-v2 --provider anthropic --base-url https://example.com
+# aidant --provider anthropic --base-url https://example.com
 ```
 
 ### Rate Limiting
@@ -140,7 +140,7 @@ aider-v2 --provider openai --base-url https://openrouter.ai/api/v1
 # Vary by plan and model
 
 # Check rate limit headers in verbose mode
-aider-v2 --verbose
+aidant --verbose
 ```
 
 ## File and Repository Issues
@@ -214,7 +214,7 @@ env | grep AIDER
 unset AIDER_MODEL
 
 # Start fresh
-aider-v2 --provider openai --model gpt-4o
+aidant --provider openai --model gpt-4o
 ```
 
 ### Configuration Not Loading
@@ -224,7 +224,7 @@ ls -la .aider.toml
 ls -la ~/.config/aider/config.toml
 
 # Use verbose mode to see what's loaded
-aider-v2 --verbose
+aidant --verbose
 ```
 
 ## Performance Issues
@@ -235,7 +235,7 @@ aider-v2 --verbose
 ping api.openai.com
 
 # Use faster models
-aider-v2 --model gpt-3.5-turbo  # Faster than gpt-4
+aidant --model gpt-3.5-turbo  # Faster than gpt-4
 
 # Reduce context size
 /clear
@@ -256,7 +256,7 @@ aider-v2 --model gpt-3.5-turbo  # Faster than gpt-4
 ### Memory Usage
 ```bash
 # Monitor memory usage
-top -p $(pgrep -f aider-v2)
+top -p $(pgrep -f aidant)
 
 # Reduce context if needed
 /session  # Check context size
@@ -279,20 +279,20 @@ locale
 ```bash
 # Disable colors if needed
 export NO_COLOR=1
-aider-v2
+aidant
 
 # Force colors
 export FORCE_COLOR=1
-aider-v2
+aidant
 
 # Try different theme
-aider-v2 --theme github
+aidant --theme github
 ```
 
 ### Terminal Compatibility
 ```bash
 # For older terminals
-aider-v2 --no-syntax-highlighting
+aidant --no-syntax-highlighting
 
 # Check terminal capabilities
 echo $TERM
@@ -322,7 +322,7 @@ tput colors
 # Session corruption
 # Exit and restart Aider
 /exit
-aider-v2
+aidant
 ```
 
 ### File Context Problems
@@ -342,21 +342,21 @@ aider-v2
 ### Enable Verbose Mode
 ```bash
 # See detailed output
-aider-v2 --verbose
+aidant --verbose
 
 # Check what's happening
 export AIDER_VERBOSE=true
-aider-v2
+aidant
 ```
 
 ### Check Logs
 ```bash
 # Default log file
-tail -f aider_v2.log
+tail -f aidant.log
 
 # Custom log file
 export AIDER_LOG_FILE="debug.log"
-aider-v2 --verbose
+aidant --verbose
 tail -f debug.log
 ```
 
@@ -364,7 +364,7 @@ tail -f debug.log
 ```bash
 # Enable request tracing
 export AIDER_TRACE=true
-aider-v2 --verbose
+aidant --verbose
 
 # Use curl to test API directly
 curl -H "Authorization: Bearer $OPENAI_API_KEY" \
@@ -378,13 +378,13 @@ curl -H "Authorization: Bearer $OPENAI_API_KEY" \
 ### Built-in Help
 ```bash
 # Command line help
-aider-v2 --help
+aidant --help
 
 # In-session help
 /help
 
 # Check version
-aider-v2 --version
+aidant --version
 ```
 
 ### Diagnostic Information
@@ -438,13 +438,13 @@ unset $(env | grep AIDER | cut -d= -f1)
 
 # Start with minimal setup
 export OPENAI_API_KEY="your-key"
-aider-v2 --provider openai --model gpt-4o
+aidant --provider openai --model gpt-4o
 ```
 
 #### Clean Installation
 ```bash
 # Uninstall
-pip uninstall aider-v2
+pip uninstall aidant
 
 # Clear cache
 pip cache purge

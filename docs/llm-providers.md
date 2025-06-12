@@ -1,6 +1,6 @@
 # LLM Providers
 
-Aider v2 supports multiple AI providers with different models and capabilities.
+Aidant supports multiple AI providers with different models and capabilities.
 
 ## OpenAI Provider
 
@@ -15,10 +15,10 @@ Aider v2 supports multiple AI providers with different models and capabilities.
 ```bash
 # With API key from environment
 export OPENAI_API_KEY="your-key"
-aider-v2 --provider openai --model gpt-4o
+aidant --provider openai --model gpt-4o
 
 # With API key as argument
-aider-v2 --provider openai --api-key your-key --model gpt-4o
+aidant --provider openai --api-key your-key --model gpt-4o
 ```
 
 ## Anthropic Provider
@@ -32,10 +32,10 @@ aider-v2 --provider openai --api-key your-key --model gpt-4o
 ```bash
 # With API key from environment
 export ANTHROPIC_API_KEY="your-key"
-aider-v2 --provider anthropic --model claude-3-5-sonnet-20241022
+aidant --provider anthropic --model claude-3-5-sonnet-20241022
 
 # With API key as argument
-aider-v2 --provider anthropic --api-key your-key --model claude-3-5-sonnet-20241022
+aidant --provider anthropic --api-key your-key --model claude-3-5-sonnet-20241022
 ```
 
 ## OpenAI-Compatible APIs
@@ -45,7 +45,7 @@ Use any OpenAI-compatible API with the `--base-url` option.
 ### OpenRouter
 Access multiple models through a unified API:
 ```bash
-aider-v2 --provider openai \
+aidant --provider openai \
          --base-url https://openrouter.ai/api/v1 \
          --api-key $OPENROUTER_API_KEY \
          --model anthropic/claude-3.5-sonnet
@@ -53,7 +53,7 @@ aider-v2 --provider openai \
 
 ### Local Servers (Ollama)
 ```bash
-aider-v2 --provider openai \
+aidant --provider openai \
          --base-url http://localhost:11434/v1 \
          --api-key local-key \
          --model llama3.1:8b
@@ -61,7 +61,7 @@ aider-v2 --provider openai \
 
 ### Together AI
 ```bash
-aider-v2 --provider openai \
+aidant --provider openai \
          --base-url https://api.together.xyz/v1 \
          --api-key $TOGETHER_API_KEY \
          --model meta-llama/Llama-2-70b-chat-hf
@@ -108,7 +108,7 @@ timeout = 600
 - Model availability depends on the service
 
 ### Model Validation
-- Aider v2 doesn't validate model names
+- Aidant doesn't validate model names
 - Check your provider's documentation for available models
 - Invalid models will cause API errors
 
@@ -117,7 +117,7 @@ timeout = 600
 ### Authentication Errors
 ```bash
 # Verify your API key is correct
-aider-v2 --provider openai --api-key your-key --model gpt-4o --verbose
+aidant --provider openai --api-key your-key --model gpt-4o --verbose
 ```
 
 ### Model Not Found
@@ -131,5 +131,5 @@ aider-v2 --provider openai --api-key your-key --model gpt-4o --verbose
 curl http://localhost:11434/v1/models
 
 # Use verbose mode for debugging
-aider-v2 --verbose --provider openai --base-url http://localhost:11434/v1
+aidant --verbose --provider openai --base-url http://localhost:11434/v1
 ```

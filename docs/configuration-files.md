@@ -1,6 +1,6 @@
 # Configuration Files
 
-Aider v2 supports TOML configuration files for persistent settings across sessions.
+Aidant supports TOML configuration files for persistent settings across sessions.
 
 ## Configuration Locations
 
@@ -348,10 +348,10 @@ EOF
 ### Validating Configuration
 ```bash
 # Test configuration
-aider-v2 --help
+aidant --help
 
 # Verbose mode shows loaded config
-aider-v2 --verbose
+aidant --verbose
 ```
 
 ### Sharing Configuration
@@ -418,7 +418,7 @@ ls -la .aider.toml
 python -c "import toml; print(toml.load('.aider.toml'))"
 
 # Use verbose mode
-aider-v2 --verbose
+aidant --verbose
 ```
 
 ### Invalid Configuration
@@ -452,5 +452,5 @@ chmod 644 .aider.toml
 unset AIDER_MODEL  # Remove env var to use config file
 
 # Command line overrides everything
-aider-v2 --model gpt-3.5-turbo  # Ignores config file model
+aidant --model gpt-3.5-turbo  # Ignores config file model
 ```

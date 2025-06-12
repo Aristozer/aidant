@@ -1,31 +1,31 @@
 # Basic Usage
 
-## Starting Aider v2
+## Starting Aidant
 
 ### Simple Start
 ```bash
 # Start in current directory with default settings
-aider-v2
+aidant
 ```
 
 ### With Specific Model
 ```bash
 # Use specific model and provider
-aider-v2 --provider openai --model gpt-4o
-aider-v2 --provider anthropic --model claude-3-5-sonnet-20241022
+aidant --provider openai --model gpt-4o
+aidant --provider anthropic --model claude-3-5-sonnet-20241022
 ```
 
 ### With Initial Files
 ```bash
 # Add files to context when starting
-aider-v2 --files src/main.py src/utils.py
+aidant --files src/main.py src/utils.py
 ```
 
 ## Basic Workflow
 
-1. **Start Aider v2**
+1. **Start Aidant**
    ```bash
-   aider-v2 --provider openai --model gpt-4o
+   aidant --provider openai --model gpt-4o
    ```
 
 2. **Add files to context**
@@ -50,7 +50,7 @@ aider-v2 --files src/main.py src/utils.py
 ## Example Session
 
 ```
-🤖 Aider v2 - AI Pair Programming Assistant
+🤖 Aidant - AI Pair Programming Assistant
 Using openai gpt-4o model. Type '/help' for commands or start chatting!
 
 > /add src/calculator.py

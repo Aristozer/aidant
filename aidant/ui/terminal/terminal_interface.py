@@ -124,7 +124,7 @@ class TerminalInterface(IUserInterface):
     
     def show_welcome(self) -> None:
         """Show welcome message."""
-        welcome_text = """🤖 Aider v2 - AI Pair Programming Assistant
+        welcome_text = """🤖 Aidant - AI Pair Programming Assistant
 
 Welcome! I'm here to help you write and edit code. Here's how to get started:
 

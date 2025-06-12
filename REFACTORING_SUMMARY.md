@@ -31,7 +31,7 @@ dependencies = [
 - Rich 14.0.0 includes latest features and performance improvements
 - Typer is built on top of Click but provides a more intuitive API
 
-### 2. Centralized Printing Module (`aider_v2/ui/printing.py`)
+### 2. Centralized Printing Module (`aidant/ui/printing.py`)
 
 **New Features:**
 - `RichPrinter` class that wraps all Rich functionality
@@ -52,7 +52,7 @@ dependencies = [
 - Convenience functions for common operations
 - Clean abstraction layer over Rich functionality
 
-### 3. CLI Migration to Typer (`aider_v2/cli/main.py`)
+### 3. CLI Migration to Typer (`aidant/cli/main.py`)
 
 **Key Changes:**
 - Replaced `@click.command()` with `@app.command()`
@@ -81,7 +81,7 @@ def main(provider: ProviderChoice = typer.Option(ProviderChoice.openai)):
         raise typer.Exit(1)
 ```
 
-### 4. Terminal Interface Refactoring (`aider_v2/ui/terminal/terminal_interface.py`)
+### 4. Terminal Interface Refactoring (`aidant/ui/terminal/terminal_interface.py`)
 
 **Modernization:**
 - Removed direct Rich imports and usage
@@ -119,7 +119,7 @@ class TerminalInterface:
             self.printer.print_info(message)
 ```
 
-### 5. Interface Updates (`aider_v2/core/interfaces/ui.py`)
+### 5. Interface Updates (`aidant/core/interfaces/ui.py`)
 
 **Added Missing Abstract Methods:**
 - `show_welcome()` - Display welcome message
@@ -133,7 +133,7 @@ This ensures all UI implementations provide consistent interfaces.
 **Updated script entry point:**
 ```toml
 [project.scripts]
-aider-v2 = "aider_v2.cli.main:cli_main"  # Was: main
+aidant = "aidant.cli.main:cli_main"  # Was: main
 ```
 
 ## Benefits Achieved

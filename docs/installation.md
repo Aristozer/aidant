@@ -10,7 +10,7 @@
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd aider_v2
+cd aidant
 
 # Install with pip
 pip install -e .
@@ -22,7 +22,7 @@ pip install -e ".[dev]"
 ## Verify Installation
 
 ```bash
-aider-v2 --help
+aidant --help
 ```
 
 ## API Keys Setup
@@ -49,13 +49,13 @@ export OPENROUTER_API_KEY="your-openrouter-key"
 
 ```bash
 # Test with OpenAI
-aider-v2 --provider openai --model gpt-4o
+aidant --provider openai --model gpt-4o
 
 # Test with Anthropic
-aider-v2 --provider anthropic --model claude-3-5-sonnet-20241022
+aidant --provider anthropic --model claude-3-5-sonnet-20241022
 ```
 
 ## Next Steps
 
-- [Basic Usage](basic-usage.md) - Learn how to use Aider v2
+- [Basic Usage](basic-usage.md) - Learn how to use Aidant
 - [Configuration](configuration.md) - Set up your preferences

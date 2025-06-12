@@ -2,14 +2,14 @@
 
 ## Overview
 
-Aider v2 now supports using OpenAI-compatible APIs through the `--base-url` option. This allows you to use services like OpenRouter, local LLM servers, or any other API that implements the OpenAI chat completions format.
+Aidant now supports using OpenAI-compatible APIs through the `--base-url` option. This allows you to use services like OpenRouter, local LLM servers, or any other API that implements the OpenAI chat completions format.
 
 ## Usage
 
 ### Basic Syntax
 
 ```bash
-aider-v2 --provider openai --base-url <CUSTOM_URL> --api-key <API_KEY> --model <MODEL_NAME>
+aidant --provider openai --base-url <CUSTOM_URL> --api-key <API_KEY> --model <MODEL_NAME>
 ```
 
 ### Examples
@@ -20,13 +20,13 @@ OpenRouter provides access to multiple LLM models through a unified OpenAI-compa
 
 ```bash
 # Using OpenRouter with Claude
-aider-v2 --provider openai \
+aidant --provider openai \
          --base-url https://openrouter.ai/api/v1 \
          --api-key $OPENROUTER_API_KEY \
          --model anthropic/claude-3.5-sonnet
 
 # Using OpenRouter with GPT-4
-aider-v2 --provider openai \
+aidant --provider openai \
          --base-url https://openrouter.ai/api/v1 \
          --api-key $OPENROUTER_API_KEY \
          --model openai/gpt-4o
@@ -38,13 +38,13 @@ For local servers running OpenAI-compatible APIs (like Ollama, LocalAI, etc.):
 
 ```bash
 # Local server example
-aider-v2 --provider openai \
+aidant --provider openai \
          --base-url http://localhost:11434/v1 \
          --api-key local-key \
          --model llama3.1:8b
 
 # Another local server example
-aider-v2 --provider openai \
+aidant --provider openai \
          --base-url http://localhost:8000/v1 \
          --api-key your-local-key \
          --model custom-model
@@ -54,7 +54,7 @@ aider-v2 --provider openai \
 
 ```bash
 # Standard OpenAI usage (base-url not required)
-aider-v2 --provider openai \
+aidant --provider openai \
          --api-key $OPENAI_API_KEY \
          --model gpt-4o
 ```
@@ -86,7 +86,7 @@ export OPENROUTER_API_KEY="your-openrouter-key"
 export OPENROUTER_BASE_URL="https://openrouter.ai/api/v1"
 
 # Then use:
-aider-v2 --provider openai --base-url $OPENROUTER_BASE_URL --api-key $OPENROUTER_API_KEY --model anthropic/claude-3.5-sonnet
+aidant --provider openai --base-url $OPENROUTER_BASE_URL --api-key $OPENROUTER_API_KEY --model anthropic/claude-3.5-sonnet
 ```
 
 ### Validation
@@ -95,10 +95,10 @@ The CLI includes validation to ensure proper usage:
 
 ```bash
 # ❌ This will fail - base-url not supported with anthropic
-aider-v2 --provider anthropic --base-url https://example.com --api-key key
+aidant --provider anthropic --base-url https://example.com --api-key key
 
 # ✅ This works - base-url with openai provider
-aider-v2 --provider openai --base-url https://openrouter.ai/api/v1 --api-key key
+aidant --provider openai --base-url https://openrouter.ai/api/v1 --api-key key
 ```
 
 ## Popular OpenAI-Compatible Services
@@ -130,7 +130,7 @@ aider-v2 --provider openai --base-url https://openrouter.ai/api/v1 --api-key key
 1. **Authentication Errors**
    ```bash
    # Make sure your API key is correct for the service
-   aider-v2 --provider openai --base-url https://openrouter.ai/api/v1 --api-key $CORRECT_KEY
+   aidant --provider openai --base-url https://openrouter.ai/api/v1 --api-key $CORRECT_KEY
    ```
 
 2. **Model Not Found**
@@ -151,7 +151,7 @@ aider-v2 --provider openai --base-url https://openrouter.ai/api/v1 --api-key key
 Use verbose logging to troubleshoot issues:
 
 ```bash
-aider-v2 --provider openai \
+aidant --provider openai \
          --base-url https://openrouter.ai/api/v1 \
          --api-key $OPENROUTER_API_KEY \
          --model anthropic/claude-3.5-sonnet \

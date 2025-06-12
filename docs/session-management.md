@@ -1,19 +1,19 @@
 # Session Management
 
-Aider v2 manages conversation sessions and file context to provide effective AI assistance.
+Aidant manages conversation sessions and file context to provide effective AI assistance.
 
 ## Session Lifecycle
 
 ### Starting a Session
 ```bash
 # Start with empty context
-aider-v2
+aidant
 
 # Start with initial files
-aider-v2 --files src/main.py src/utils.py
+aidant --files src/main.py src/utils.py
 
 # Start with specific configuration
-aider-v2 --provider openai --model gpt-4o --verbose
+aidant --provider openai --model gpt-4o --verbose
 ```
 
 ### Session Information
@@ -100,7 +100,7 @@ Clear all files from context? (y/N): y
 ### Development Session
 ```bash
 # Start with core files
-aider-v2 --files src/main.py src/config.py
+aidant --files src/main.py src/config.py
 
 # Add features incrementally
 > /add src/new_feature.py
@@ -114,7 +114,7 @@ aider-v2 --files src/main.py src/config.py
 ### Debugging Session
 ```bash
 # Start with failing test
-aider-v2 --files tests/test_calculator.py
+aidant --files tests/test_calculator.py
 
 # Add implementation
 > /add src/calculator.py
@@ -128,7 +128,7 @@ aider-v2 --files tests/test_calculator.py
 ### Refactoring Session
 ```bash
 # Add all related files
-aider-v2 --files src/old_module.py src/related.py tests/
+aidant --files src/old_module.py src/related.py tests/
 
 # Plan refactoring
 > Refactor the old_module to use modern Python patterns
@@ -185,7 +185,7 @@ Keep context specific to current task:
 git log --oneline -10
 
 # Re-add relevant files
-aider-v2 --files $(git diff --name-only HEAD~5)
+aidant --files $(git diff --name-only HEAD~5)
 ```
 
 ## Advanced Session Management
@@ -194,11 +194,11 @@ aider-v2 --files $(git diff --name-only HEAD~5)
 ```bash
 # Work on different projects
 cd project1/
-aider-v2 --workspace .
+aidant --workspace .
 
 # Switch to another project
 cd ../project2/
-aider-v2 --workspace .
+aidant --workspace .
 ```
 
 ### Session Templates
@@ -206,7 +206,7 @@ Create scripts for common session types:
 ```bash
 #!/bin/bash
 # start-feature-session.sh
-aider-v2 --provider openai \
+aidant --provider openai \
          --model gpt-4o \
          --files src/main.py src/config.py tests/test_main.py
 ```
@@ -214,10 +214,10 @@ aider-v2 --provider openai \
 ### Context Presets
 ```bash
 # Development preset
-alias aider-dev='aider-v2 --files src/ tests/ --verbose'
+alias aider-dev='aidant --files src/ tests/ --verbose'
 
 # Quick fix preset
-alias aider-fix='aider-v2 --files src/main.py --auto-apply'
+alias aider-fix='aidant --files src/main.py --auto-apply'
 ```
 
 ## Monitoring and Optimization
@@ -266,9 +266,9 @@ Permission denied: /etc/passwd
 ### Session Problems
 ```bash
 # Session state corruption
-# Restart Aider v2
+# Restart Aidant
 exit
-aider-v2
+aidant
 
 # Re-add files
 > /add previous_files.py
@@ -288,7 +288,7 @@ Context size: 50,000 characters  # Too large
 ## Integration Tips
 
 ### With IDEs
-- Keep Aider v2 session focused on current task
+- Keep Aidant session focused on current task
 - Use IDE for navigation, Aider for changes
 - Sync file context with IDE's open files
 

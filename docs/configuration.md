@@ -1,6 +1,6 @@
 # Configuration
 
-Aider v2 can be configured through command-line options, environment variables, and configuration files.
+Aidant can be configured through command-line options, environment variables, and configuration files.
 
 ## Configuration Priority
 
@@ -123,7 +123,7 @@ export AIDER_VERBOSE="false"
 
 ### Basic Options
 ```bash
-aider-v2 --provider openai \
+aidant --provider openai \
          --model gpt-4o \
          --api-key your-key \
          --workspace /path/to/project \
@@ -132,12 +132,12 @@ aider-v2 --provider openai \
 
 ### File Options
 ```bash
-aider-v2 --files src/main.py src/utils.py
+aidant --files src/main.py src/utils.py
 ```
 
 ### Custom API Options
 ```bash
-aider-v2 --provider openai \
+aidant --provider openai \
          --base-url https://openrouter.ai/api/v1 \
          --api-key your-openrouter-key \
          --model anthropic/claude-3.5-sonnet
@@ -167,7 +167,7 @@ temperature = 0.7
 export OPENROUTER_API_KEY="your-key"
 
 # Command line
-aider-v2 --provider openai \
+aidant --provider openai \
          --base-url https://openrouter.ai/api/v1 \
          --api-key $OPENROUTER_API_KEY \
          --model anthropic/claude-3.5-sonnet
@@ -219,7 +219,7 @@ mkdir -p ~/.config/aider
 
 ## Validation
 
-Aider v2 validates configuration on startup:
+Aidant validates configuration on startup:
 - Invalid provider names are rejected
 - Missing API keys are detected
 - Incompatible options (like base-url with anthropic) are caught

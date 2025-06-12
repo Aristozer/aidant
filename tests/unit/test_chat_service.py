@@ -4,14 +4,14 @@ import pytest
 from unittest.mock import Mock, MagicMock
 from datetime import datetime
 
-from aider_v2.core.services.chat_service import ChatService
-from aider_v2.core.interfaces.llm_provider import (
+from aidant.core.services.chat_service import ChatService
+from aidant.core.interfaces.llm_provider import (
     ILLMProvider, GenerationResult, ChatMessage, MessageRole
 )
-from aider_v2.core.interfaces.coder import ICoder, CodeChange, ChangeType, ValidationResult
-from aider_v2.core.interfaces.repository import IRepository
-from aider_v2.core.interfaces.ui import IUserInterface
-from aider_v2.core.domain.models import SessionStatus
+from aidant.core.interfaces.coder import ICoder, CodeChange, ChangeType, ValidationResult
+from aidant.core.interfaces.repository import IRepository
+from aidant.core.interfaces.ui import IUserInterface
+from aidant.core.domain.models import SessionStatus
 
 
 class TestChatService:

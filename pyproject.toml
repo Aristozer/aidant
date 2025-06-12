@@ -1,6 +1,6 @@
 [project]
-name = "aider-v2"
-description = "Aider v2 - AI pair programming with improved architecture"
+name = "aidant"
+description = "Aidant - AI pair programming with improved architecture"
 readme = "README.md"
 version = "2.0.0"
 requires-python = ">=3.10"
@@ -34,7 +34,7 @@ dev = [
 ]
 
 [project.scripts]
-aider-v2 = "aider_v2.cli.main:cli_main"
+aidant = "aidant.cli.main:cli_main"
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]
@@ -42,7 +42,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["aider_v2*"]
+include = ["aidant*"]
 
 [tool.black]
 line-length = 88
