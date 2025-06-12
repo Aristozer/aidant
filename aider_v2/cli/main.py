@@ -1,11 +1,12 @@
 """Main CLI entry point for Aider v2."""
 
-import click
+import typer
 import os
 import sys
 import logging
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
+from enum import Enum
 
 from ..core.container import container
 from ..core.interfaces.coder import ICoder
@@ -19,6 +20,25 @@ from ..infrastructure.repository.git_repository import GitRepository
 from ..infrastructure.coders.editblock.editblock_coder import EditBlockCoder
 from ..ui.terminal.terminal_interface import TerminalInterface
 from .commands import CommandHandler
+
+
+class ProviderChoice(str, Enum):
+    """Available LLM providers."""
+    openai = "openai"
+    anthropic = "anthropic"
+
+
+class CoderChoice(str, Enum):
+    """Available coder types."""
+    editblock = "editblock"
+
+
+# Create the main Typer app
+app = typer.Typer(
+    name="aider-v2",
+    help="Aider v2 - AI Pair Programming Assistant with improved architecture.",
+    add_completion=False
+)
 
 
 def setup_logging(verbose: bool) -> None:
@@ -39,7 +59,8 @@ def setup_container(
     provider: str,
     api_key: str,
     model: str,
-    coder_type: str
+    coder_type: str,
+    base_url: Optional[str] = None
 ) -> None:
     """Setup dependency injection container."""
     
@@ -51,8 +72,10 @@ def setup_container(
     
     # Register LLM Provider
     if provider == "openai":
-        llm_provider = OpenAIProvider(api_key)
+        llm_provider = OpenAIProvider(api_key, base_url=base_url)
     elif provider == "anthropic":
+        if base_url:
+            raise ValueError("Custom base URL is not supported for Anthropic provider")
         llm_provider = AnthropicProvider(api_key)
     else:
         raise ValueError(f"Unsupported provider: {provider}")
@@ -71,48 +94,47 @@ def setup_container(
     container.register(ChatService, ChatService, singleton=True)
 
 
-@click.command()
-@click.option('--model', default='gpt-4o', help='LLM model to use')
-@click.option('--provider', default='openai', type=click.Choice(['openai', 'anthropic']), help='LLM provider')
-@click.option('--api-key', help='API key for LLM provider (or set OPENAI_API_KEY/ANTHROPIC_API_KEY env var)')
-@click.option('--workspace', default='.', help='Workspace directory')
-@click.option('--coder', default='editblock', type=click.Choice(['editblock']), help='Coder type to use')
-@click.option('--verbose', '-v', is_flag=True, help='Enable verbose logging')
-@click.option('--files', multiple=True, help='Files to add to initial context')
+@app.command()
 def main(
-    model: str,
-    provider: str,
-    api_key: Optional[str],
-    workspace: str,
-    coder: str,
-    verbose: bool,
-    files: tuple
+    model: str = typer.Option("gpt-4o", help="LLM model to use"),
+    provider: ProviderChoice = typer.Option(ProviderChoice.openai, help="LLM provider"),
+    api_key: Optional[str] = typer.Option(None, "--api-key", help="API key for LLM provider (or set OPENAI_API_KEY/ANTHROPIC_API_KEY env var)"),
+    base_url: Optional[str] = typer.Option(None, "--base-url", help="Custom base URL for OpenAI-compatible APIs (e.g., OpenRouter, local servers)"),
+    workspace: str = typer.Option(".", help="Workspace directory"),
+    coder: CoderChoice = typer.Option(CoderChoice.editblock, help="Coder type to use"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging"),
+    files: Optional[List[str]] = typer.Option(None, "--files", help="Files to add to initial context")
 ) -> None:
-    """Aider v2 - AI Pair Programming Assistant with improved architecture."""
+    """Start Aider v2 - AI Pair Programming Assistant with improved architecture."""
     
     # Setup logging
     setup_logging(verbose)
     
     # Get API key from environment if not provided
     if not api_key:
-        if provider == "openai":
+        if provider == ProviderChoice.openai:
             api_key = os.getenv('OPENAI_API_KEY')
-        elif provider == "anthropic":
+        elif provider == ProviderChoice.anthropic:
             api_key = os.getenv('ANTHROPIC_API_KEY')
         
         if not api_key:
-            click.echo(f"Error: API key required. Set {provider.upper()}_API_KEY environment variable or use --api-key option.", err=True)
-            sys.exit(1)
+            typer.echo(f"Error: API key required. Set {provider.value.upper()}_API_KEY environment variable or use --api-key option.", err=True)
+            raise typer.Exit(1)
     
     # Validate workspace
     workspace_path = Path(workspace).resolve()
     if not workspace_path.exists():
-        click.echo(f"Error: Workspace directory '{workspace}' does not exist.", err=True)
-        sys.exit(1)
+        typer.echo(f"Error: Workspace directory '{workspace}' does not exist.", err=True)
+        raise typer.Exit(1)
+    
+    # Validate base_url usage
+    if base_url and provider != ProviderChoice.openai:
+        typer.echo(f"Error: --base-url option is only supported with --provider=openai", err=True)
+        raise typer.Exit(1)
     
     try:
         # Setup container
-        setup_container(str(workspace_path), provider, api_key, model, coder)
+        setup_container(str(workspace_path), provider.value, api_key, model, coder.value, base_url)
         
         # Get services
         ui = container.get(IUserInterface)
@@ -122,7 +144,7 @@ def main(
         llm_provider = container.get(ILLMProvider)
         if not llm_provider.validate_api_key():
             ui.show_error("Invalid API key. Please check your credentials.")
-            sys.exit(1)
+            raise typer.Exit(1)
         
         # Show welcome message
         ui.show_welcome()
@@ -138,7 +160,10 @@ def main(
         command_handler = CommandHandler(chat_service, ui, container.get(IRepository))
         
         # Main chat loop
-        ui.show_info(f"Using {provider} {model} model. Type '/help' for commands or start chatting!")
+        provider_info = f"{provider.value} {model}"
+        if base_url:
+            provider_info += f" (via {base_url})"
+        ui.show_info(f"Using {provider_info} model. Type '/help' for commands or start chatting!")
         
         while True:
             try:
@@ -180,9 +205,14 @@ def main(
         ui.show_info(f"Session completed. Messages: {summary.get('message_count', 0)}")
         
     except Exception as e:
-        click.echo(f"Error: {str(e)}", err=True)
-        sys.exit(1)
+        typer.echo(f"Error: {str(e)}", err=True)
+        raise typer.Exit(1)
+
+
+def cli_main() -> None:
+    """Entry point for the CLI application."""
+    app()
 
 
 if __name__ == "__main__":
-    main()
+    cli_main()

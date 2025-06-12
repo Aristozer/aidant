@@ -87,3 +87,18 @@ class IUserInterface(ABC):
     def stop_spinner(self) -> None:
         """Stop the current loading spinner."""
         pass
+    
+    @abstractmethod
+    def show_welcome(self) -> None:
+        """Show welcome message."""
+        pass
+    
+    @abstractmethod
+    def show_file_content(self, file_path: str, content: str, language: Optional[str] = None) -> None:
+        """Display file content with syntax highlighting."""
+        pass
+    
+    @abstractmethod
+    def show_help(self) -> None:
+        """Show help information."""
+        pass
