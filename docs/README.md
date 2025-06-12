@@ -1,10 +1,10 @@
-# Aider v2 Documentation
+# Aidant Documentation
 
-Welcome to Aider v2, an AI pair programming assistant with improved architecture and enhanced features.
+Welcome to Aidant, an AI pair programming assistant with improved architecture and enhanced features.
 
-## What is Aider v2?
+## What is Aidant?
 
-Aider v2 is a complete architectural rewrite of the original Aider, featuring:
+Aidant is a complete architectural rewrite of the original Aider, featuring:
 - **Modular Design** - Clean separation of concerns with interfaces and dependency injection
 - **Multiple AI Providers** - OpenAI, Anthropic, and custom API support
 - **Smart Code Editing** - Precise EditBlock format for safe code modifications
@@ -13,9 +13,9 @@ Aider v2 is a complete architectural rewrite of the original Aider, featuring:
 
 ## Quick Start
 
-1. **[Installation](installation.md)** - Get Aider v2 up and running
-2. **[Basic Usage](basic-usage.md)** - Your first session with Aider v2
-3. **[Configuration](configuration.md)** - Customize Aider v2 to your needs
+1. **[Installation](installation.md)** - Get Aidant up and running
+2. **[Basic Usage](basic-usage.md)** - Your first session with Aidant
+3. **[Configuration](configuration.md)** - Customize Aidant to your needs
 
 ## Core Features
 
@@ -26,7 +26,7 @@ Aider v2 is a complete architectural rewrite of the original Aider, featuring:
   - Custom APIs: OpenRouter, local servers (Ollama), Together AI
 
 ### Code Editing
-- **[Code Editing](code-editing.md)** - How Aider v2 modifies your code
+- **[Code Editing](code-editing.md)** - How Aidant modifies your code
   - EditBlock format for precise changes
   - Safety features: backups, diffs, confirmations
   - Multi-file refactoring support
@@ -76,7 +76,7 @@ Aider v2 is a complete architectural rewrite of the original Aider, featuring:
 
 ## Architecture & Development
 
-- **[Project Structure](architecture.md)** - Understanding Aider v2's modular design
+- **[Project Structure](architecture.md)** - Understanding Aidant's modular design
   - Core interfaces and services
   - Infrastructure implementations
   - Dependency injection system
@@ -88,7 +88,7 @@ Aider v2 is a complete architectural rewrite of the original Aider, featuring:
 
 ## Feature Comparison
 
-| Feature | Aider v1 | Aider v2 |
+| Feature | Aider v1 | Aidant |
 |---------|----------|----------|
 | Architecture | Monolithic | Modular |
 | Providers | OpenAI only | OpenAI, Anthropic, Custom APIs |
@@ -109,13 +109,13 @@ pip install -e .
 export OPENAI_API_KEY="your-key"
 
 # Start coding
-aider-v2 --files src/main.py
+aidant --files src/main.py
 ```
 
 ### With Custom API
 ```bash
 # Use OpenRouter
-aider-v2 --provider openai \
+aidant --provider openai \
          --base-url https://openrouter.ai/api/v1 \
          --api-key $OPENROUTER_API_KEY \
          --model anthropic/claude-3.5-sonnet
@@ -139,4 +139,4 @@ verbose = true
 
 ---
 
-**Need help?** Check the [troubleshooting guide](troubleshooting.md) or run `aider-v2 --help` for command-line options.
+**Need help?** Check the [troubleshooting guide](troubleshooting.md) or run `aidant --help` for command-line options.

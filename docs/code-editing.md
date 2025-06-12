@@ -1,11 +1,11 @@
 # Code Editing
 
-Aider v2 uses the EditBlock coder to make precise changes to your code files.
+Aidant uses the EditBlock coder to make precise changes to your code files.
 
 ## How It Works
 
 ### EditBlock Format
-Aider v2 shows proposed changes using a search-and-replace format:
+Aidant shows proposed changes using a search-and-replace format:
 
 ```
 filename.py
@@ -203,7 +203,7 @@ class Calculator:
 - Use `/diff` to see current file state
 
 ### Merge Conflicts
-- Aider v2 works on clean repositories
+- Aidant works on clean repositories
 - Commit or stash changes before starting
 - Use `/status` to check repository state
 
@@ -212,7 +212,7 @@ class Calculator:
 ### Auto-apply Mode
 ```bash
 # Skip confirmation prompts
-aider-v2 --auto-apply
+aidant --auto-apply
 
 # Or set in config
 [coder]

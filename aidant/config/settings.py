@@ -1,4 +1,4 @@
-"""Configuration settings for Aider v2."""
+"""Configuration settings for Aidant."""
 
 from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Any

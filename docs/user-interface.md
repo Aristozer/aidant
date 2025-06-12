@@ -1,12 +1,12 @@
 # User Interface
 
-Aider v2 features a rich terminal interface with syntax highlighting, themes, and interactive elements.
+Aidant features a rich terminal interface with syntax highlighting, themes, and interactive elements.
 
 ## Terminal Interface
 
 ### Welcome Screen
 ```
-🤖 Aider v2 - AI Pair Programming Assistant
+🤖 Aidant - AI Pair Programming Assistant
 Using openai gpt-4o model. Type '/help' for commands or start chatting!
 ```
 
@@ -139,11 +139,11 @@ export AIDER_VERBOSE="true"
 ### Theme Selection
 ```bash
 # Set theme via command line
-aider-v2 --theme dracula
+aidant --theme dracula
 
 # Set theme via environment
 export AIDER_THEME="github"
-aider-v2
+aidant
 
 # Set theme via config file
 [ui]
@@ -153,13 +153,13 @@ theme = "solarized-dark"
 ### Verbosity Levels
 ```bash
 # Quiet mode (minimal output)
-aider-v2 --quiet
+aidant --quiet
 
 # Normal mode (default)
-aider-v2
+aidant
 
 # Verbose mode (detailed output)
-aider-v2 --verbose
+aidant --verbose
 ```
 
 ### Line Numbers
@@ -173,7 +173,7 @@ show_line_numbers = false   # Hide line numbers
 
 ### During Input
 - `Ctrl+C` - Interrupt current operation
-- `Ctrl+D` - Exit Aider v2
+- `Ctrl+D` - Exit Aidant
 - `Tab` - File path completion (where supported)
 - `Up/Down` - Command history (where supported)
 
@@ -264,11 +264,11 @@ Terminal font size is controlled by your terminal emulator settings.
 echo $TERM
 
 # Test color support
-aider-v2 --theme github
+aidant --theme github
 
 # Disable colors if needed
 export NO_COLOR=1
-aider-v2
+aidant
 ```
 
 ### Unicode Problems
@@ -281,10 +281,10 @@ export LC_ALL=en_US.UTF-8
 ### Terminal Compatibility
 ```bash
 # For older terminals
-aider-v2 --no-syntax-highlighting
+aidant --no-syntax-highlighting
 
 # For minimal terminals
-aider-v2 --theme none
+aidant --theme none
 ```
 
 ## Advanced Features
@@ -325,8 +325,8 @@ Tested with:
 ### Shell Integration
 ```bash
 # Add to .bashrc or .zshrc
-alias ai='aider-v2'
-alias aid='aider-v2 --verbose'
+alias ai='aidant'
+alias aid='aidant --verbose'
 ```
 
 ### Tmux/Screen
@@ -334,5 +334,5 @@ Works well in terminal multiplexers:
 ```bash
 # In tmux session
 tmux new-session -d -s aider
-tmux send-keys -t aider 'aider-v2' Enter
+tmux send-keys -t aider 'aidant' Enter
 ```

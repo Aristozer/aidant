@@ -1,6 +1,6 @@
 # Repository Management
 
-Aider v2 integrates seamlessly with Git to track all changes and maintain a clean development workflow.
+Aidant integrates seamlessly with Git to track all changes and maintain a clean development workflow.
 
 ## Git Integration
 
@@ -101,8 +101,8 @@ commit_message_template = "🤖 {description}"
 # Check status before starting
 git status
 
-# Start Aider v2
-aider-v2 --provider openai --model gpt-4o
+# Start Aidant
+aidant --provider openai --model gpt-4o
 
 # Make changes
 > Add logging to the main function
@@ -117,8 +117,8 @@ aider-v2 --provider openai --model gpt-4o
 git add .
 git commit -m "Manual changes before AI session"
 
-# Then start Aider v2
-aider-v2
+# Then start Aidant
+aidant
 ```
 
 ### Reviewing Changes
@@ -136,7 +136,7 @@ git diff HEAD~3..HEAD
 ## File Ignore Patterns
 
 ### Default Patterns
-Aider v2 automatically ignores common files:
+Aidant automatically ignores common files:
 - `.git/*` - Git metadata
 - `__pycache__/*` - Python cache
 - `*.pyc` - Python bytecode
@@ -182,8 +182,8 @@ dist/
 # Create feature branch for AI session
 git checkout -b feature/ai-refactoring
 
-# Start Aider v2
-aider-v2
+# Start Aidant
+aidant
 
 # After session, review and merge
 git checkout main
@@ -202,7 +202,7 @@ git commit --amend -m "Better commit message"
 ## Advanced Features
 
 ### Selective Commits
-Aider v2 commits only the files it modifies:
+Aidant commits only the files it modifies:
 ```bash
 # If you have other changes
 echo "manual change" >> other_file.txt
@@ -217,7 +217,7 @@ git status
 ```
 
 ### Commit Hooks
-Git hooks work normally with Aider v2:
+Git hooks work normally with Aidant:
 ```bash
 # Pre-commit hooks run on AI commits
 # .git/hooks/pre-commit
@@ -227,7 +227,7 @@ flake8 .
 ```
 
 ### Repository Validation
-Aider v2 validates repository state:
+Aidant validates repository state:
 - Checks if directory is a git repository
 - Warns about uncommitted changes
 - Ensures write permissions
@@ -250,8 +250,8 @@ git status
 git add .
 git commit -m "Resolve conflicts"
 
-# Then start Aider v2
-aider-v2
+# Then start Aidant
+aidant
 ```
 
 ### Large Repositories
@@ -261,7 +261,7 @@ git clone --depth 1 <repo-url>
 
 # Or work in subdirectories
 cd specific-module/
-aider-v2 --workspace .
+aidant --workspace .
 ```
 
 ### Commit History Cleanup

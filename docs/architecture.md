@@ -1,15 +1,15 @@
 # Project Structure
 
-Understanding Aider v2's modular architecture and design principles.
+Understanding Aidant's modular architecture and design principles.
 
 ## Overview
 
-Aider v2 is built with a clean, modular architecture that separates concerns and makes the codebase maintainable, testable, and extensible.
+Aidant is built with a clean, modular architecture that separates concerns and makes the codebase maintainable, testable, and extensible.
 
 ## Directory Structure
 
 ```
-aider_v2/
+aidant/
 ├── core/                    # Core business logic
 │   ├── interfaces/          # Abstract interfaces
 │   ├── domain/             # Domain models
@@ -55,7 +55,7 @@ Business logic and orchestration:
 Simple container for managing service dependencies:
 
 ```python
-from aider_v2.core.container import container
+from aidant.core.container import container
 
 # Register services
 container.register(ILLMProvider, OpenAIProvider)
@@ -247,7 +247,7 @@ Infrastructure Implementations
 
 ## Comparison with Original Aider
 
-| Aspect | Original Aider | Aider v2 |
+| Aspect | Original Aider | Aidant |
 |--------|---------------|----------|
 | Architecture | Monolithic | Modular/Layered |
 | File Size | 2,485 lines (base_coder.py) | ~300 lines max per file |
@@ -276,4 +276,4 @@ Infrastructure Implementations
 3. Register in dependency container
 4. Add startup option
 
-This architecture makes Aider v2 a solid foundation for future development and customization.
+This architecture makes Aidant a solid foundation for future development and customization.

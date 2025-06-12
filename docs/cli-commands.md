@@ -1,6 +1,6 @@
 # CLI Commands
 
-All commands in Aider v2 start with `/` and can be used during a chat session.
+All commands in Aidant start with `/` and can be used during a chat session.
 
 ## File Management
 
@@ -67,7 +67,7 @@ Show help information and available commands.
 ## System Commands
 
 ### `/exit`
-Exit Aider v2.
+Exit Aidant.
 ```
 /exit
 ```

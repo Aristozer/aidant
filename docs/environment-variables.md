@@ -1,6 +1,6 @@
 # Environment Variables
 
-Complete reference for all environment variables supported by Aider v2.
+Complete reference for all environment variables supported by Aidant.
 
 ## API Keys
 
@@ -189,7 +189,7 @@ pip install python-dotenv
 
 # Load .env file
 set -a; source .env; set +a
-aider-v2
+aidant
 ```
 
 ### Multiple Environments
@@ -209,29 +209,29 @@ cp .env.testing .env
 ### Bash/Zsh Profile
 Add to `~/.bashrc` or `~/.zshrc`:
 ```bash
-# Aider v2 configuration
+# Aidant configuration
 export OPENAI_API_KEY="sk-..."
 export AIDER_PROVIDER="openai"
 export AIDER_MODEL="gpt-4o"
 export AIDER_THEME="monokai"
 
 # Aliases
-alias ai='aider-v2'
-alias aid='aider-v2 --verbose'
-alias aif='aider-v2 --files'
+alias ai='aidant'
+alias aid='aidant --verbose'
+alias aif='aidant --files'
 ```
 
 ### Fish Shell
 Add to `~/.config/fish/config.fish`:
 ```fish
-# Aider v2 configuration
+# Aidant configuration
 set -x OPENAI_API_KEY "sk-..."
 set -x AIDER_PROVIDER "openai"
 set -x AIDER_MODEL "gpt-4o"
 
 # Aliases
-alias ai='aider-v2'
-alias aid='aider-v2 --verbose'
+alias ai='aidant'
+alias aid='aidant --verbose'
 ```
 
 ## Security Considerations
@@ -265,7 +265,7 @@ export NO_PROXY="localhost,127.0.0.1,internal.company.com"
 env | grep AIDER
 
 # Test configuration
-aider-v2 --help
+aidant --help
 ```
 
 ### Verify API Keys
@@ -302,7 +302,7 @@ printenv | sort
 printenv | grep -i aider
 
 # Test with verbose mode
-AIDER_VERBOSE=true aider-v2
+AIDER_VERBOSE=true aidant
 ```
 
 ### Reset Configuration
@@ -311,5 +311,5 @@ AIDER_VERBOSE=true aider-v2
 unset $(env | grep AIDER | cut -d= -f1)
 
 # Start fresh
-aider-v2 --provider openai --api-key $OPENAI_API_KEY
+aidant --provider openai --api-key $OPENAI_API_KEY
 ```

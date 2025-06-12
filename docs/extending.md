@@ -1,10 +1,10 @@
-# Extending Aider v2
+# Extending Aidant
 
-Guide for developers who want to extend Aider v2 with new providers, coders, or features.
+Guide for developers who want to extend Aidant with new providers, coders, or features.
 
 ## Overview
 
-Aider v2's modular architecture makes it easy to extend with new functionality. The plugin system is based on interfaces and dependency injection.
+Aidant's modular architecture makes it easy to extend with new functionality. The plugin system is based on interfaces and dependency injection.
 
 ## Adding a New LLM Provider
 
@@ -376,7 +376,7 @@ def web(
     port: int = typer.Option(8080, help="Web server port"),
     # ... other options ...
 ) -> None:
-    """Start Aider v2 with web interface."""
+    """Start Aidant with web interface."""
     
     # Setup container with web UI
     container.register_instance(IUserInterface, WebInterface(host, port))
@@ -468,8 +468,8 @@ class PluginLoader:
 
 ```python
 # plugins/example_plugin.py
-from aider_v2.core.interfaces.plugin import IPlugin
-from aider_v2.core.interfaces.llm_provider import ILLMProvider
+from aidant.core.interfaces.plugin import IPlugin
+from aidant.core.interfaces.llm_provider import ILLMProvider
 
 class ExamplePlugin(IPlugin):
     def initialize(self, container) -> None:
@@ -495,7 +495,7 @@ class ExamplePlugin(IPlugin):
 # tests/test_custom_provider.py
 import pytest
 from unittest.mock import Mock, patch
-from aider_v2.infrastructure.llm.custom_provider import CustomLLMProvider
+from aidant.infrastructure.llm.custom_provider import CustomLLMProvider
 
 class TestCustomLLMProvider:
     def test_generate_response(self):
@@ -528,8 +528,8 @@ class TestCustomLLMProvider:
 ```python
 # tests/integration/test_custom_integration.py
 import pytest
-from aider_v2.core.container import container
-from aider_v2.infrastructure.llm.custom_provider import CustomLLMProvider
+from aidant.core.container import container
+from aidant.infrastructure.llm.custom_provider import CustomLLMProvider
 
 class TestCustomIntegration:
     def test_provider_registration(self):
@@ -567,4 +567,4 @@ class TestCustomIntegration:
 - Test integration with existing system
 - Test error conditions
 
-This extension system makes Aider v2 highly customizable while maintaining clean architecture and separation of concerns.
+This extension system makes Aidant highly customizable while maintaining clean architecture and separation of concerns.

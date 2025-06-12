@@ -1,2 +1,0 @@
-[console_scripts]
-aider-v2 = aider_v2.cli.main:cli_main

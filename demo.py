@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Demo script to test Aider v2 functionality."""
+"""Demo script to test Aidant functionality."""
 
 import tempfile
 import os
@@ -9,15 +9,15 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parent))
 
-from aider_v2.core.container import container
-from aider_v2.core.interfaces.coder import ICoder
-from aider_v2.core.interfaces.llm_provider import ILLMProvider
-from aider_v2.core.interfaces.repository import IRepository
-from aider_v2.core.interfaces.ui import IUserInterface
-from aider_v2.core.services.chat_service import ChatService
-from aider_v2.infrastructure.repository.git_repository import GitRepository
-from aider_v2.infrastructure.coders.editblock.editblock_coder import EditBlockCoder
-from aider_v2.ui.terminal.terminal_interface import TerminalInterface
+from aidant.core.container import container
+from aidant.core.interfaces.coder import ICoder
+from aidant.core.interfaces.llm_provider import ILLMProvider
+from aidant.core.interfaces.repository import IRepository
+from aidant.core.interfaces.ui import IUserInterface
+from aidant.core.services.chat_service import ChatService
+from aidant.infrastructure.repository.git_repository import GitRepository
+from aidant.infrastructure.coders.editblock.editblock_coder import EditBlockCoder
+from aidant.ui.terminal.terminal_interface import TerminalInterface
 
 
 class MockUI(TerminalInterface):
@@ -44,7 +44,7 @@ class MockLLMProvider:
         return None
     
     def generate_response(self, messages, model_name, config=None):
-        from aider_v2.core.interfaces.llm_provider import GenerationResult, ChatMessage, MessageRole
+        from aidant.core.interfaces.llm_provider import GenerationResult, ChatMessage, MessageRole
         
         # Simple mock response with a code change
         user_message = messages[-1].content if messages else ""
@@ -105,7 +105,7 @@ def hello():
 
 def main():
     """Run the demo."""
-    print("🚀 Aider v2 Architecture Demo")
+    print("🚀 Aidant Architecture Demo")
     print("=" * 50)
     
     # Setup demo workspace

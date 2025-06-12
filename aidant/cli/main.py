@@ -1,4 +1,4 @@
-"""Main CLI entry point for Aider v2."""
+"""Main CLI entry point for Aidant."""
 
 import typer
 import os
@@ -35,8 +35,8 @@ class CoderChoice(str, Enum):
 
 # Create the main Typer app
 app = typer.Typer(
-    name="aider-v2",
-    help="Aider v2 - AI Pair Programming Assistant with improved architecture.",
+    name="aidant",
+    help="Aidant - AI Pair Programming Assistant with improved architecture.",
     add_completion=False
 )
 
@@ -48,7 +48,7 @@ def setup_logging(verbose: bool) -> None:
         level=level,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         handlers=[
-            logging.FileHandler('aider_v2.log'),
+            logging.FileHandler('aidant.log'),
             logging.StreamHandler() if verbose else logging.NullHandler()
         ]
     )
@@ -105,7 +105,7 @@ def main(
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging"),
     files: Optional[List[str]] = typer.Option(None, "--files", help="Files to add to initial context")
 ) -> None:
-    """Start Aider v2 - AI Pair Programming Assistant with improved architecture."""
+    """Start Aidant - AI Pair Programming Assistant with improved architecture."""
     
     # Setup logging
     setup_logging(verbose)

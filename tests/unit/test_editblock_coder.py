@@ -4,8 +4,8 @@ import pytest
 import tempfile
 from pathlib import Path
 
-from aider_v2.infrastructure.coders.editblock.editblock_coder import EditBlockCoder
-from aider_v2.core.interfaces.coder import ChangeType, ParseError
+from aidant.infrastructure.coders.editblock.editblock_coder import EditBlockCoder
+from aidant.core.interfaces.coder import ChangeType, ParseError
 
 
 class TestEditBlockCoder:
@@ -130,7 +130,7 @@ def goodbye(name="World"):
     def test_validate_changes_existing_file(self, coder, temp_workspace):
         """Test validation of changes to existing files."""
         # Create change for existing file
-        from aider_v2.core.interfaces.coder import CodeChange
+        from aidant.core.interfaces.coder import CodeChange
         
         change = CodeChange(
             file_path="test.py",
@@ -146,7 +146,7 @@ def goodbye(name="World"):
     
     def test_validate_changes_missing_file(self, coder):
         """Test validation fails for missing files."""
-        from aider_v2.core.interfaces.coder import CodeChange
+        from aidant.core.interfaces.coder import CodeChange
         
         change = CodeChange(
             file_path="missing.py",
@@ -163,7 +163,7 @@ def goodbye(name="World"):
     
     def test_validate_changes_search_not_found(self, coder, temp_workspace):
         """Test validation fails when search content not found."""
-        from aider_v2.core.interfaces.coder import CodeChange
+        from aidant.core.interfaces.coder import CodeChange
         
         change = CodeChange(
             file_path="test.py",
@@ -180,7 +180,7 @@ def goodbye(name="World"):
     
     def test_apply_modify_change(self, coder, temp_workspace):
         """Test applying modification changes."""
-        from aider_v2.core.interfaces.coder import CodeChange
+        from aidant.core.interfaces.coder import CodeChange
         
         change = CodeChange(
             file_path="test.py",
@@ -201,7 +201,7 @@ def goodbye(name="World"):
     
     def test_apply_create_change(self, coder, temp_workspace):
         """Test applying file creation changes."""
-        from aider_v2.core.interfaces.coder import CodeChange
+        from aidant.core.interfaces.coder import CodeChange
         
         change = CodeChange(
             file_path="new_file.py",

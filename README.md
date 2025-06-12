@@ -1,6 +1,6 @@
-# Aider v2 - AI Pair Programming Assistant
+# Aidant - AI Pair Programming Assistant
 
-Aider v2 is a complete architectural rewrite of the original Aider, featuring a clean, modular design with improved maintainability, testability, and extensibility.
+Aidant is a complete architectural rewrite of the original Aider, featuring a clean, modular design with improved maintainability, testability, and extensibility.
 
 ## 🚀 Key Improvements
 
@@ -19,7 +19,7 @@ Aider v2 is a complete architectural rewrite of the original Aider, featuring a 
 ## 📁 Project Structure
 
 ```
-aider_v2/
+aidant/
 ├── core/                    # Core business logic
 │   ├── interfaces/          # Abstract interfaces
 │   ├── domain/             # Domain models
@@ -40,10 +40,10 @@ aider_v2/
 
 **Complete documentation is available in the [docs/](docs/) directory:**
 
-- **[Quick Start Guide](docs/README.md)** - Get started with Aider v2
+- **[Quick Start Guide](docs/README.md)** - Get started with Aidant
 - **[Installation](docs/installation.md)** - Setup and installation instructions
-- **[Basic Usage](docs/basic-usage.md)** - Your first session with Aider v2
-- **[Configuration](docs/configuration.md)** - Customize Aider v2 to your needs
+- **[Basic Usage](docs/basic-usage.md)** - Your first session with Aidant
+- **[Configuration](docs/configuration.md)** - Customize Aidant to your needs
 - **[All Features](docs/README.md#core-features)** - Complete feature documentation
 
 ## 🛠 Installation
@@ -51,7 +51,7 @@ aider_v2/
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd aider_v2
+cd aidant
 
 # Install dependencies
 pip install -e .
@@ -101,16 +101,16 @@ confirm_changes = true
 ### Basic Usage
 ```bash
 # Start Aider in current directory
-aider-v2
+aidant
 
 # Specify model and provider
-aider-v2 --model gpt-4o --provider openai
+aidant --model gpt-4o --provider openai
 
 # Add files to initial context
-aider-v2 --files src/main.py src/utils.py
+aidant --files src/main.py src/utils.py
 
 # Enable verbose logging
-aider-v2 --verbose
+aidant --verbose
 ```
 
 ### Commands
@@ -127,7 +127,7 @@ aider-v2 --verbose
 
 ### Example Session
 ```
-🤖 Aider v2 - AI Pair Programming Assistant
+🤖 Aidant - AI Pair Programming Assistant
 
 > /add src/calculator.py
 ✅ Added 1 files to context
@@ -163,7 +163,7 @@ Apply these changes? (y/N): y
 The application uses a simple dependency injection container to manage service dependencies:
 
 ```python
-from aider_v2.core.container import container
+from aidant.core.container import container
 
 # Register services
 container.register(ILLMProvider, OpenAIProvider)
@@ -194,7 +194,7 @@ container.register(ILLMProvider, CustomLLMProvider)
 pytest
 
 # Run with coverage
-pytest --cov=aider_v2
+pytest --cov=aidant
 
 # Run specific test file
 pytest tests/test_chat_service.py
@@ -212,7 +212,7 @@ tests/
 └── fixtures/              # Test fixtures
 ```
 
-## 🔌 Extending Aider v2
+## 🔌 Extending Aidant
 
 ### Adding a New LLM Provider
 1. Implement the `ILLMProvider` interface
@@ -231,7 +231,7 @@ tests/
 
 ## 📊 Comparison with Original Aider
 
-| Aspect | Original Aider | Aider v2 |
+| Aspect | Original Aider | Aidant |
 |--------|---------------|----------|
 | Architecture | Monolithic | Modular/Layered |
 | File Size | 2,485 lines (base_coder.py) | ~300 lines max per file |
