@@ -36,6 +36,16 @@ aider_v2/
 └── config/                # Configuration management
 ```
 
+## 📚 Documentation
+
+**Complete documentation is available in the [docs/](docs/) directory:**
+
+- **[Quick Start Guide](docs/README.md)** - Get started with Aider v2
+- **[Installation](docs/installation.md)** - Setup and installation instructions
+- **[Basic Usage](docs/basic-usage.md)** - Your first session with Aider v2
+- **[Configuration](docs/configuration.md)** - Customize Aider v2 to your needs
+- **[All Features](docs/README.md#core-features)** - Complete feature documentation
+
 ## 🛠 Installation
 
 ```bash
@@ -49,6 +59,8 @@ pip install -e .
 # Or install with development dependencies
 pip install -e ".[dev]"
 ```
+
+For detailed installation instructions, see [docs/installation.md](docs/installation.md).
 
 ## 🔧 Configuration
 
