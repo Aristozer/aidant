@@ -59,7 +59,8 @@ def setup_container(
     provider: str,
     api_key: str,
     model: str,
-    coder_type: str
+    coder_type: str,
+    base_url: Optional[str] = None
 ) -> None:
     """Setup dependency injection container."""
     
@@ -71,8 +72,10 @@ def setup_container(
     
     # Register LLM Provider
     if provider == "openai":
-        llm_provider = OpenAIProvider(api_key)
+        llm_provider = OpenAIProvider(api_key, base_url=base_url)
     elif provider == "anthropic":
+        if base_url:
+            raise ValueError("Custom base URL is not supported for Anthropic provider")
         llm_provider = AnthropicProvider(api_key)
     else:
         raise ValueError(f"Unsupported provider: {provider}")
@@ -96,6 +99,7 @@ def main(
     model: str = typer.Option("gpt-4o", help="LLM model to use"),
     provider: ProviderChoice = typer.Option(ProviderChoice.openai, help="LLM provider"),
     api_key: Optional[str] = typer.Option(None, "--api-key", help="API key for LLM provider (or set OPENAI_API_KEY/ANTHROPIC_API_KEY env var)"),
+    base_url: Optional[str] = typer.Option(None, "--base-url", help="Custom base URL for OpenAI-compatible APIs (e.g., OpenRouter, local servers)"),
     workspace: str = typer.Option(".", help="Workspace directory"),
     coder: CoderChoice = typer.Option(CoderChoice.editblock, help="Coder type to use"),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging"),
@@ -123,9 +127,14 @@ def main(
         typer.echo(f"Error: Workspace directory '{workspace}' does not exist.", err=True)
         raise typer.Exit(1)
     
+    # Validate base_url usage
+    if base_url and provider != ProviderChoice.openai:
+        typer.echo(f"Error: --base-url option is only supported with --provider=openai", err=True)
+        raise typer.Exit(1)
+    
     try:
         # Setup container
-        setup_container(str(workspace_path), provider.value, api_key, model, coder.value)
+        setup_container(str(workspace_path), provider.value, api_key, model, coder.value, base_url)
         
         # Get services
         ui = container.get(IUserInterface)
@@ -151,7 +160,10 @@ def main(
         command_handler = CommandHandler(chat_service, ui, container.get(IRepository))
         
         # Main chat loop
-        ui.show_info(f"Using {provider.value} {model} model. Type '/help' for commands or start chatting!")
+        provider_info = f"{provider.value} {model}"
+        if base_url:
+            provider_info += f" (via {base_url})"
+        ui.show_info(f"Using {provider_info} model. Type '/help' for commands or start chatting!")
         
         while True:
             try:
