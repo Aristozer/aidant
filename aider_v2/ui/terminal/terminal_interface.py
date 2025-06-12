@@ -1,83 +1,70 @@
-"""Terminal UI implementation using Rich for enhanced display."""
+"""Terminal UI implementation using centralized Rich printing module."""
 
 from typing import List, Optional, Callable
-from rich.console import Console
-from rich.prompt import Prompt, Confirm
-from rich.table import Table
-from rich.syntax import Syntax
-from rich.panel import Panel
-from rich.text import Text
-from rich.live import Live
-from rich.spinner import Spinner
-import difflib
+from pathlib import Path
 
 from ...core.interfaces.ui import IUserInterface, MessageType, UserChoice
 from ...core.interfaces.coder import CodeChange
+from ..printing import RichPrinter, PrintStyle
 
 
 class TerminalInterface(IUserInterface):
-    """Terminal-based user interface using Rich for enhanced display."""
+    """Terminal-based user interface using centralized Rich printing."""
     
     def __init__(self) -> None:
-        self.console = Console()
-        self.spinner_live: Optional[Live] = None
+        self.printer = RichPrinter()
     
     def show_message(self, message: str, message_type: MessageType = MessageType.INFO) -> None:
         """Display a message with appropriate styling."""
-        style_map = {
-            MessageType.INFO: "blue",
-            MessageType.WARNING: "yellow",
-            MessageType.ERROR: "red",
-            MessageType.SUCCESS: "green"
-        }
-        
-        icon_map = {
-            MessageType.INFO: "ℹ️",
-            MessageType.WARNING: "⚠️",
-            MessageType.ERROR: "❌",
-            MessageType.SUCCESS: "✅"
-        }
-        
-        style = style_map.get(message_type, "white")
-        icon = icon_map.get(message_type, "")
-        
-        self.console.print(f"{icon} {message}", style=style)
+        if message_type == MessageType.INFO:
+            self.printer.print_info(message)
+        elif message_type == MessageType.WARNING:
+            self.printer.print_warning(message)
+        elif message_type == MessageType.ERROR:
+            self.printer.print_error(message)
+        elif message_type == MessageType.SUCCESS:
+            self.printer.print_success(message)
+        else:
+            self.printer.print(message)
     
     def get_user_input(self, prompt: str = "> ") -> str:
         """Get input from the user."""
-        return Prompt.ask(prompt)
+        return self.printer.prompt(prompt)
     
     def confirm(self, message: str, default: bool = False) -> bool:
         """Ask the user for confirmation."""
-        return Confirm.ask(message, default=default)
+        return self.printer.confirm(message, default)
     
     def choose_option(self, message: str, choices: List[UserChoice]) -> str:
         """Present multiple choices to the user."""
-        self.console.print(f"\n{message}")
+        self.printer.print(f"\n{message}")
         
         for i, choice in enumerate(choices, 1):
             description = f" - {choice.description}" if choice.description else ""
-            self.console.print(f"  {i}. {choice.label}{description}")
+            self.printer.print(f"  {i}. {choice.label}{description}")
         
         while True:
             try:
-                choice_input = Prompt.ask("Enter your choice", choices=[str(i) for i in range(1, len(choices) + 1)])
+                choice_input = self.printer.prompt(
+                    "Enter your choice", 
+                    default=None
+                )
                 choice_index = int(choice_input) - 1
-                return choices[choice_index].key
+                if 0 <= choice_index < len(choices):
+                    return choices[choice_index].key
+                else:
+                    raise IndexError("Choice out of range")
             except (ValueError, IndexError):
-                self.console.print("Invalid choice. Please try again.", style="red")
+                self.printer.print_error("Invalid choice. Please try again.")
     
     def show_changes(self, changes: List[CodeChange]) -> None:
         """Display proposed code changes."""
         if not changes:
-            self.console.print("No changes to display.", style="yellow")
+            self.printer.print_warning("No changes to display.")
             return
         
-        table = Table(title="Proposed Changes", show_header=True, header_style="bold magenta")
-        table.add_column("File", style="cyan", no_wrap=True)
-        table.add_column("Type", style="magenta")
-        table.add_column("Lines", style="green")
-        table.add_column("Description", style="white")
+        headers = ["File", "Type", "Lines", "Description"]
+        rows = []
         
         for change in changes:
             lines = "N/A"
@@ -94,139 +81,87 @@ class TerminalInterface(IUserInterface):
             elif change.change_type.value == "delete":
                 description = "Delete file"
             
-            table.add_row(
+            rows.append([
                 change.file_path,
                 change.change_type.value.title(),
                 lines,
                 description
-            )
+            ])
         
-        self.console.print(table)
+        self.printer.print_table(
+            title="Proposed Changes",
+            headers=headers,
+            rows=rows,
+            header_style="bold magenta"
+        )
     
     def confirm_changes(self, changes: List[CodeChange]) -> bool:
         """Show changes and ask for confirmation."""
-        self.console.print("\n" + "="*60)
-        self.console.print("PROPOSED CHANGES", style="bold yellow", justify="center")
-        self.console.print("="*60)
+        self.printer.print_header("PROPOSED CHANGES")
         
         self.show_changes(changes)
         
         # Show detailed diffs for modifications
         for change in changes:
             if change.change_type.value == "modify" and change.old_content and change.content:
-                self.console.print(f"\n[bold]Detailed changes for {change.file_path}:[/bold]")
+                self.printer.print_bold(f"\nDetailed changes for {change.file_path}:")
                 self.show_diff(change.old_content, change.content, change.file_path)
         
-        self.console.print("\n" + "="*60)
-        return self.confirm("Apply these changes?", default=False)
+        self.printer.print_separator()
+        return self.printer.confirm("Apply these changes?", default=False)
     
     def show_diff(self, old_content: str, new_content: str, file_path: str) -> None:
         """Display a diff between old and new content."""
-        old_lines = old_content.splitlines(keepends=True)
-        new_lines = new_content.splitlines(keepends=True)
-        
-        diff = list(difflib.unified_diff(
-            old_lines, 
-            new_lines, 
-            fromfile=f"a/{file_path}", 
-            tofile=f"b/{file_path}",
-            lineterm=""
-        ))
-        
-        if not diff:
-            self.console.print("No differences found.", style="yellow")
-            return
-        
-        # Display diff with syntax highlighting
-        diff_text = "".join(diff)
-        
-        try:
-            syntax = Syntax(diff_text, "diff", theme="monokai", line_numbers=True)
-            panel = Panel(syntax, title=f"Changes to {file_path}", border_style="blue")
-            self.console.print(panel)
-        except Exception:
-            # Fallback to plain text
-            self.console.print(diff_text)
+        self.printer.print_diff(old_content, new_content, file_path)
     
     def start_spinner(self, message: str) -> None:
         """Start a loading spinner with a message."""
-        if self.spinner_live:
-            self.stop_spinner()
-        
-        spinner = Spinner("dots", text=message)
-        self.spinner_live = Live(spinner, console=self.console, refresh_per_second=10)
-        self.spinner_live.start()
+        self.printer.start_spinner(message)
     
     def stop_spinner(self) -> None:
         """Stop the current loading spinner."""
-        if self.spinner_live:
-            self.spinner_live.stop()
-            self.spinner_live = None
+        self.printer.stop_spinner()
     
     def show_welcome(self) -> None:
         """Show welcome message."""
-        welcome_text = """
-[bold blue]🤖 Aider v2 - AI Pair Programming Assistant[/bold blue]
+        welcome_text = """🤖 Aider v2 - AI Pair Programming Assistant
 
 Welcome! I'm here to help you write and edit code. Here's how to get started:
 
-[bold]Commands:[/bold]
+Commands:
 • Type your request in natural language
-• Use [cyan]/add <file>[/cyan] to add files to the conversation
-• Use [cyan]/files[/cyan] to see current files
-• Use [cyan]/help[/cyan] for more commands
-• Use [cyan]/exit[/cyan] to quit
+• Use /add <file> to add files to the conversation
+• Use /files to see current files
+• Use /help for more commands
+• Use /exit to quit
 
-[bold]Tips:[/bold]
+Tips:
 • Be specific about what you want to change
 • I can create new files, modify existing ones, or explain code
 • I'll show you exactly what changes I plan to make before applying them
 
-Let's start coding! What would you like to work on?
-"""
-        panel = Panel(welcome_text, title="Welcome", border_style="green")
-        self.console.print(panel)
+Let's start coding! What would you like to work on?"""
+        
+        self.printer.print_panel(welcome_text, title="Welcome", border_style="green")
     
     def show_file_content(self, file_path: str, content: str, language: Optional[str] = None) -> None:
         """Display file content with syntax highlighting."""
-        try:
-            # Detect language from file extension if not provided
-            if not language:
-                from pathlib import Path
-                ext = Path(file_path).suffix.lower()
-                language_map = {
-                    '.py': 'python', '.js': 'javascript', '.ts': 'typescript',
-                    '.java': 'java', '.cpp': 'cpp', '.c': 'c', '.go': 'go',
-                    '.rs': 'rust', '.php': 'php', '.rb': 'ruby', '.html': 'html',
-                    '.css': 'css', '.sql': 'sql', '.sh': 'bash', '.yml': 'yaml',
-                    '.yaml': 'yaml', '.json': 'json', '.xml': 'xml', '.md': 'markdown'
-                }
-                language = language_map.get(ext, 'text')
-            
-            syntax = Syntax(content, language, theme="monokai", line_numbers=True)
-            panel = Panel(syntax, title=file_path, border_style="blue")
-            self.console.print(panel)
-        except Exception:
-            # Fallback to plain text
-            self.console.print(f"\n--- {file_path} ---")
-            self.console.print(content)
-            self.console.print("--- End ---\n")
+        self.printer.print_file_content(file_path, content, language)
     
     def show_help(self) -> None:
         """Show help information."""
-        help_text = """
-[bold]Available Commands:[/bold]
+        help_text = """Available Commands:
 
-[cyan]/add <file>[/cyan]     - Add a file to the conversation context
-[cyan]/files[/cyan]          - Show files currently in context
-[cyan]/clear[/cyan]          - Clear the conversation context
-[cyan]/status[/cyan]         - Show repository status
-[cyan]/diff <file>[/cyan]    - Show diff for a file
-[cyan]/history[/cyan]        - Show recent commit history
-[cyan]/help[/cyan]           - Show this help message
-[cyan]/exit[/cyan]           - Exit the application
+/add <file>     - Add a file to the conversation context
+/files          - Show files currently in context
+/clear          - Clear the conversation context
+/status         - Show repository status
+/diff <file>    - Show diff for a file
+/history        - Show recent commit history
+/help           - Show this help message
+/exit           - Exit the application
 
-[bold]Usage Examples:[/bold]
+Usage Examples:
 
 • "Add error handling to the login function"
 • "Create a new API endpoint for user registration"
@@ -234,12 +169,11 @@ Let's start coding! What would you like to work on?
 • "Add unit tests for the User class"
 • "Refactor this code to use async/await"
 
-[bold]Tips:[/bold]
+Tips:
 
 • Be specific about what you want to change
 • Mention file names when working with multiple files
 • Ask me to explain code if you're unsure about something
-• I'll always show you changes before applying them
-"""
-        panel = Panel(help_text, title="Help", border_style="yellow")
-        self.console.print(panel)
+• I'll always show you changes before applying them"""
+        
+        self.printer.print_panel(help_text, title="Help", border_style="yellow")
